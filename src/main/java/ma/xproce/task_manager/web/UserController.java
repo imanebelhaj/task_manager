@@ -29,6 +29,14 @@ public class UserController {
     public String signin() {
         return "signin";
     }
+    @GetMapping("/profile")
+    public String profile() {
+        return "profile";
+    }
+    @GetMapping("/updateprofile")
+    public String updateProfile() {
+        return "updateprofile";
+    }
 
 
 

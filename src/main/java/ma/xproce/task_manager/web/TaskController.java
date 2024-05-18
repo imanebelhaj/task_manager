@@ -1,27 +1,96 @@
 package ma.xproce.task_manager.web;
 
 import ma.xproce.task_manager.dao.entites.Task;
+import ma.xproce.task_manager.service.TaskManager;
 import ma.xproce.task_manager.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.Date;
 import java.util.List;
+import jakarta.validation.Valid;
+
 
 @RequestMapping("/tasks")
 @Controller
 public class TaskController {
+    @Autowired
+    TaskService taskService;
+    TaskManager taskManager;
 
+
+    @GetMapping("/updatetask")
+    public String updateTask() {
+        return "updatetask";
+    }
+
+    @PostMapping("/add")
+    public String addTaskAction(Model model,
+                          @RequestParam(name = "name") String name,
+                          @RequestParam(name = "id", defaultValue =  "") Integer id,
+                          @RequestParam(name = "description") String description,
+                          @RequestParam(name = "Deadline") Date Deadline,
+                          @RequestParam(name = "priorityLevel")String priorityLevel){
+        Task task = new Task(id, name, description, Deadline,priorityLevel);
+        taskService.addTask(task);
+        return "redirect:dashboard";
+    }
+    @PostMapping("/AddOnce")
+    public String addTask(Model model,
+                                 @Valid Task task,
+                                 BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return "addtask" ;
+        }
+        taskService.addTask(task);
+        return "redirect:dashboard";
+    }
     @GetMapping("/addtask")
-    public String addTask() {
+    public String addtask(Model model) {
+        model.addAttribute("task", new Task());
         return "addtask";
     }
 
 
 
+    /*
+     @PostMapping("/ajouter")
+    public String ajouterProduitAction(Model model,
+                                 @RequestParam(name = "title") String title,
+                                 @RequestParam(name = "id", defaultValue =  "") Integer id,
+                                 @RequestParam(name = "designation") String designation,
+                                 @RequestParam(name = "prix") double prix) {
+        Produit produit = new Produit(id, title, designation, prix);
+        produitManager.addProduit(produit);
+        return "redirect:indexpage";
+    }
+
+    @PostMapping("/ajouterOnce")
+    public String ajouterProduit(Model model,
+                                 @Valid Produit produit,
+                                 BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return "ajouterproduit" ;
+        }
+        produitManager.addProduit(produit);
+        return "redirect:indexpage";
+    }
+
+
+    @GetMapping("/ajouterproduit")
+    public String ajouterproduit(Model model) {
+        model.addAttribute("produit", new Produit());
+        return "ajouterproduit";
+    }
+
+
+     */
 
     /*
     private final TaskService taskService;

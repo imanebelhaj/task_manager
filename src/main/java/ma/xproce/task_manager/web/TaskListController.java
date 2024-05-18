@@ -7,15 +7,26 @@ import ma.xproce.task_manager.service.TaskListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
 import java.util.Optional;
-
-@RestController
 @RequestMapping("/tasklists")
+@Controller
 public class TaskListController {
+    @GetMapping("/addlist")
+    public String addList() {
+        return "addlist";
+    }
+    @GetMapping("/updatelist")
+    public String updateList() {
+        return "updatelist";
+    }
+
+
+    /*
     private final TaskListService taskListService;
 
     @Autowired
@@ -49,6 +60,8 @@ public class TaskListController {
     }
 
 
+
+     */
 
 
 }

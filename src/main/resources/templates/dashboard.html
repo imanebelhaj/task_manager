@@ -241,6 +241,13 @@
       filter: none;
       opacity: .5;
     }
+    .edit-task {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      align-items: center;
+    }
 
   </style>
 
@@ -272,6 +279,10 @@
     <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
   </symbol>
 
+  <symbol id="edit" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M12.146 2.854a.5.5 0 0 1 0 .707l-7.5 7.5a.5.5 0 0 1-.168.11l-3 1a.5.5 0 0 1-.647-.646l1-3a.5.5 0 0 1 .11-.168l7.5-7.5a.5.5 0 0 1 .707 0l2 2zM11.5 3.5L13 5l-.646.646-1.5-1.5L11.5 3.5zm-1 1L3.354 11.646 2 14l2.354-.354L12.5 5.5 10.5 3.5z"/>
+  </symbol>
+
   <symbol id="plus-circle" viewBox="0 0 16 16">
     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
     <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
@@ -292,8 +303,8 @@
       <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
         Account ... </a>
       <ul class="dropdown-menu text-small">
-        <li><a class="dropdown-item" href="#">Settings</a></li>
-        <li><a class="dropdown-item" href="#">Profile</a></li>
+        <li><a class="dropdown-item" th:href="@{/dashboard}">Settings</a></li>
+        <li><a class="dropdown-item" th:href="@{/dashboard}">Profile</a></li>
         <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" th:href="@{/}">Sign out</a></li>
       </ul>
@@ -325,36 +336,41 @@
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto" style="height:580px;">
+
+
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="#">
+              <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" th:href="@{/dashboard}">
                 <svg class="bi"><use xlink:href="#house-fill"/></svg>
                 Dashboard
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
+              <a class="nav-link d-flex align-items-center gap-2"th:href="@{/dashboard}">
                 <svg class="bi"><use xlink:href="#graph-up"/></svg>
                 Reports
               </a>
             </li>
           </ul>
+
+
+
           <hr class="my-3">
 
           <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
             <span>Task Lists</span>
-            <a class="link-secondary" href="#" aria-label="Add a new report">
+            <a class="link-secondary" th:href="@{/tasklists/addlist}" >
               <!-- this button to add a new task list -->
-              <svg class="bi"><use xlink:href="#plus-circle"/></svg>
+              <svg class="bi"><use xlink:href="#plus-circle"/> </svg>
             </a>
           </h6>
+
           <!--this will be i guess a loop for each list added to be displayed -->
           <ul class="nav flex-column mb-auto">
             <li class="nav-item">
               <a class="nav-link d-flex align-items-center gap-2" href="#">
-                <svg class="bi"><use xlink:href="#file-earmark-text"/></svg>
-                List 1
-              </a>
+                <svg class="bi"><use xlink:href="#file-earmark-text"/></svg>List 1</a>
+
             </li>
             <li class="nav-item">
               <a class="nav-link d-flex align-items-center gap-2" href="#">
@@ -388,13 +404,18 @@
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Task list name</h1>
+        <h1 class="h2">Task list name
+          <a class="link-secondary" th:href="@{/tasklists/updatelist}" >
+            <svg class="bi"><use xlink:href="#edit"/> </svg>
+          </a>
+        </h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group me-2">
 
-            <button type="button" class="btn btn-info">
-            <a th:href="@{/tasks/addtask}" style="text-decoration: none; color: white;">+ New task</a>
-            </button>
+
+            <a th:href="@{/tasks/addtask}" class="btn btn-info"  type="button" style="text-decoration: none; color: white;">
+              + New task
+            </a>
           </div>
 
         </div>
@@ -407,10 +428,14 @@
               <input class="form-check-input flex-shrink-0" type="checkbox" value="" checked style="font-size: 1.375em;">
               <span class="pt-1 form-checked-content">
                 <strong>Finish sales report</strong>
+
                 <small class="d-block text-body-secondary">
                   <svg class="bi me-1" width="1em" height="1em"><use xlink:href="#calendar-event"/></svg>
                   1:00?2:00pm
                 </small>
+                <strong>
+                  <a class="link-secondary  edit-task" th:href="@{/tasks/updatetask}" > edit task
+            <svg class="bi"><use xlink:href="#edit"/>  </svg></a></strong>
               </span>
             </label>
             <label class="list-group-item d-flex gap-3">
@@ -421,7 +446,12 @@
                   <svg class="bi me-1" width="1em" height="1em"><use xlink:href="#calendar-event"/></svg>
                   2:00?2:30pm
                 </small>
+                <strong>
+                  <a class="link-secondary  edit-task" th:href="@{/tasks/updatetask}" > edit task
+            <svg class="bi"><use xlink:href="#edit"/>  </svg></a></strong>
               </span>
+
+
             </label>
             <label class="list-group-item d-flex gap-3">
               <input class="form-check-input flex-shrink-0" type="checkbox" value="" style="font-size: 1.375em;">
@@ -431,6 +461,24 @@
                   <svg class="bi me-1" width="1em" height="1em"><use xlink:href="#alarm"/></svg>
                   Tomorrow
                 </small>
+                <strong>
+                  <a class="link-secondary  edit-task" th:href="@{/tasks/updatetask}" > edit task
+            <svg class="bi"><use xlink:href="#edit"/>  </svg></a></strong>
+              </span>
+            </label>
+
+            </label>
+            <label class="list-group-item d-flex gap-3">
+              <input class="form-check-input flex-shrink-0" type="checkbox" value="" style="font-size: 1.375em;">
+              <span class="pt-1 form-checked-content">
+                <strong>Task test</strong>
+                <small class="d-block text-body-secondary">
+                  <svg class="bi me-1" width="1em" height="1em"><use xlink:href="#alarm"/></svg>
+                  Tomorrow
+                </small>
+                <strong>
+                  <a class="link-secondary  edit-task" th:href="@{/tasks/updatetask}" > edit task
+            <svg class="bi"><use xlink:href="#edit"/>  </svg></a></strong>
               </span>
             </label>
 

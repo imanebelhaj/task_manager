@@ -42,4 +42,9 @@ public class Task {
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
     private List<SubTask> subtasks;
+
+
+
+    public Task(Integer id, String name, String description, Date deadline, String priorityLevel) {
+    }
 }
