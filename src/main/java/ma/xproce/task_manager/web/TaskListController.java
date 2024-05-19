@@ -57,10 +57,65 @@ public class TaskListController {
         return "redirect:/dashboard"; // Assuming dashboard is the correct redirect URL
     }
 
-    @GetMapping("/updatelist")
-    public String updateList() {
+    @GetMapping("/edit")
+    public String edit() {
+        return "edit";
+    }
+
+    @GetMapping("/updatelist/{listId}")
+    public String showUpdateForm(@PathVariable("listId") Long listId, Model model) {
+        // Retrieve the task list by ID
+        TaskList taskList = taskListService.getTaskListById(listId);
+
+        // Check if the task list exists
+        if (taskList == null) {
+            // Handle case where task list with given ID is not found
+            return "redirect:/dashboard";
+        }
+
+        // Add the task list to the model
+        model.addAttribute("tasklist", taskList);
+
         return "updatelist";
     }
+
+    @PostMapping("/updatelist/{listId}")
+    public String updateListAction(@PathVariable("listId") Long listId, @ModelAttribute("tasklist") @Valid TaskList updatedTaskList, BindingResult result, HttpSession session) {
+        if (result.hasErrors()) {
+            return "updatelist";
+        }
+
+        // Retrieve the original task list from the database
+        TaskList originalTaskList = taskListService.getTaskListById(listId);
+
+        // Update the properties of the original task list with the values from the updated task list
+        originalTaskList.setName(updatedTaskList.getName());
+        originalTaskList.setDescription(updatedTaskList.getDescription());
+        originalTaskList.setLastUpdateDate(new Date()); // Update last update date
+
+        // Save the updated task list
+        taskListService.save(originalTaskList);
+
+        return "redirect:/dashboard"; // Redirect to dashboard after updating the task list
+    }
+    @PostMapping("/deletelist/{listId}")
+    public String deleteList(@PathVariable("listId") Long listId, HttpSession session) {
+        // Delete the task list with the given ID
+        taskListService.deleteTaskList(listId);
+
+        // Check if the deleted list was previously selected
+        Long selectedTaskListId = (Long) session.getAttribute("selectedTaskListId");
+        if (selectedTaskListId != null && selectedTaskListId.equals(listId)) {
+            // Clear the selected task list from session
+            session.removeAttribute("selectedTaskListId");
+        }
+
+        // Redirect to dashboard after deletion
+        return "redirect:/dashboard";
+    }
+
+
+
 
 
 

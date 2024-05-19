@@ -404,8 +404,10 @@
             <div th:if="${selectedTaskList}">
               <div class="d-flex justify-content-between align-items-center">
                 <h2 th:text="${selectedTaskList.name}"></h2>
-                <a class="link-secondary" th:href="@{/tasklists/updatelist}">
-                  Edit List
+
+                <a class="btn btn-primary"  th:href="@{/tasklists/updatelist/{listId}(listId=${selectedTaskList.id})}">
+                  <!-- Link to the update list page, passing the list ID as a path variable -->
+                  Update List
                   <svg class="bi"><use xlink:href="#edit"/></svg>
                 </a>
               </div>

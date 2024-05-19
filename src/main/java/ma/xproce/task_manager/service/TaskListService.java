@@ -36,22 +36,11 @@ public class TaskListService {
     }
 
 
-
-    public TaskList addTaskToList(Long listId, Task task) {
-        Optional<TaskList> optionalTaskList = taskListRepository.findById(listId);
-        if (optionalTaskList.isPresent()) {
-            TaskList taskList = optionalTaskList.get();
-            taskList.getTasks().add(task);
-            return taskListRepository.save(taskList);
-        } else {
-            throw new IllegalArgumentException("Task list with ID " + listId + " not found");
-        }
-    }
-
-
-    public void deleteList(Long listId) {
+    public void deleteTaskList(Long listId) {
         taskListRepository.deleteById(listId);
     }
+
+
 
 
 
