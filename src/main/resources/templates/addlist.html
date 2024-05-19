@@ -75,22 +75,7 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        .btn-bd-primary {
-            --bd-violet-bg: #712cf9;
-            --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
 
-            --bs-btn-font-weight: 600;
-            --bs-btn-color: var(--bs-white);
-            --bs-btn-bg: var(--bd-violet-bg);
-            --bs-btn-border-color: var(--bd-violet-bg);
-            --bs-btn-hover-color: var(--bs-white);
-            --bs-btn-hover-bg: #6528e0;
-            --bs-btn-hover-border-color: #6528e0;
-            --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-            --bs-btn-active-color: var(--bs-btn-hover-color);
-            --bs-btn-active-bg: #5a23c8;
-            --bs-btn-active-border-color: #5a23c8;
-        }
 
         .bd-mode-toggle {
             z-index: 1500;
@@ -106,7 +91,34 @@
     <!-- Custom styles for this template -->
     <link href="checkout.css" rel="stylesheet">
 </head>
-<body class="bg-body-tertiary">
+<body class="bg-body-tertiary"><div class="container">
+    <main>
+        <div class="py-5 text-center">
+            <h2 style="margin-top: 0px; margin-bottom: 0%;">New Task form</h2>
+        </div>
+        <div class="row g-5 d-flex justify-content-center">
+            <div class="col-md-7 col-lg-8">
+                <form action="/tasklists/AddOnce" method="post" th:object="${list}" class="needs-validation" novalidate>
+                    <div class="row g-3">
+                        <div class="col-sm-12">
+                            <label for="name" class="form-label">List name</label>
+                            <input type="text" class="form-control" th:field="*{name}" id="name" required>
+                            <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                        </div>
+                        <!-- Include other form fields similarly -->
+
+                        <button type="submit" class="btn btn-primary form-control w-50">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+
+<p>--------------------------------------------------------------------</p>
+<!--------------------------------------------------->
+
+
 
 <div class="container">
     <main>

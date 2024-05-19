@@ -8,7 +8,9 @@ import java.util.List;
 
 @Component
 public interface TaskManager {
-    public Task addTask(Task task);
+    public Task addTask(Task task, Long taskListId);
+
+
     public void deleteTask(Long taskId);
     public Task updateTask(Task task);
     public Task updateTaskCompletion(Long taskId, boolean completed);

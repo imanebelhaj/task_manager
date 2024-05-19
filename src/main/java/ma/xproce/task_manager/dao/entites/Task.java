@@ -37,7 +37,7 @@ public class Task {
 
 
     @ManyToOne
-    @JoinColumn(name = "task_list_id", nullable = false)
+    @JoinColumn(name = "task_list_id")//, nullable = false
     private TaskList taskList;
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
@@ -45,6 +45,5 @@ public class Task {
 
 
 
-    public Task(Integer id, String name, String description, Date deadline, String priorityLevel) {
-    }
+
 }

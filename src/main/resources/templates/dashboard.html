@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
 
 <head>
   <meta charset="ISO-8859-1">
@@ -404,22 +404,25 @@
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Task list name
-          <a class="link-secondary" th:href="@{/tasklists/updatelist}" >
-            <svg class="bi"><use xlink:href="#edit"/> </svg>
-          </a>
-        </h1>
+
+        <h1>Hello <span th:text="${user.username}"></span>!</h1>
+
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group me-2">
-
-
             <a th:href="@{/tasks/addtask}" class="btn btn-info"  type="button" style="text-decoration: none; color: white;">
               + New task
             </a>
           </div>
-
         </div>
       </div>
+
+      <br>
+      <h4 class="h4">Task list name
+        <a class="link-secondary" th:href="@{/tasklists/updatelist}" >
+          <svg class="bi"><use xlink:href="#edit"/> </svg>
+        </a>
+      </h4>
+
 
       <div class="table-responsive small">
         <div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">

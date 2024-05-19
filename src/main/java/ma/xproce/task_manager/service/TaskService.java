@@ -2,6 +2,8 @@ package ma.xproce.task_manager.service;
 
 
 import ma.xproce.task_manager.dao.entites.Task;
+import ma.xproce.task_manager.dao.entites.TaskList;
+import ma.xproce.task_manager.dao.repositories.TaskListRepository;
 import ma.xproce.task_manager.dao.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,16 +19,36 @@ public class TaskService implements TaskManager {
     // update task completion status
 
     private final TaskRepository taskRepository;
+    private TaskListRepository taskListRepository;
 
     @Autowired
     public TaskService(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
 
+
+
+
     @Override
-    public Task addTask(Task task) {
-        return taskRepository.save(task);
+    public Task addTask(Task task, Long taskListId) {
+        task.setCreationDate(new Date());
+        task.setLastUpdateDate(null); // Assuming last update date should be null initially
+        task.setCompleted(false);
+        task.setDeadlinePassed(false);
+        task.setCompletionDate(null);
+        TaskList taskList = taskListRepository.findById(taskListId).orElse(null);
+        if (taskList != null) {
+            task.setTaskList(taskList);
+            return taskRepository.save(task);
+        } else {
+            // Handle the case where the TaskList is not found or available
+            // For example, you can log an error or throw an exception
+            return null;
+        }
     }
+
+
+
     public void deleteTask(Long taskId) {
         taskRepository.deleteById(taskId);
     }

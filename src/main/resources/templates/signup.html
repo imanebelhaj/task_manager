@@ -98,6 +98,7 @@
 
     </head>
 <body>
+
 <div class="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5" tabindex="-1" role="dialog" id="modalSignin" >
     <div class="modal-dialog" role="document">
         <div class="modal-content rounded-4 shadow" >
@@ -106,46 +107,47 @@
             </div>
 
             <div class="modal-body p-5 pt-0">
-                <form class="">
-                    <!-- <div class="form-floating mb-3">
-                      <input type="email" class="form-control rounded-3" id="floatingInput" placeholder="name@example.com">
-                      <label for="floatingInput">Email address</label>
-                    </div> -->
+            <form th:action="@{/users/process_register}" th:object="${user}" method="post">
                     <div class="form-floating mb-3">
-                            <label for="username" class="form-label"></label>
+                        <label class="form-label"></label>
+                        <div class="input-group has-validation">
+                            <input type="email" th:field="*{email}" class="form-control" placeholder="E-mail" required />
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                            <label  class="form-label"></label>
                             <div class="input-group has-validation">
                                 <span class="input-group-text">@</span>
-                                <input type="text" class="form-control" id="username" placeholder="Username" required>
-                                <div class="invalid-feedback">
+                                <input type="text" th:field="*{username}" class="form-control" placeholder="Username" required minlength="2" maxlength="20" />                                <div class="invalid-feedback">
                                     Your username is required.
                                 </div>
                             </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" th:field="*{password}" class="form-control" placeholder="Password" minlength="6" maxlength="10"/>
+                        <label >Password</label>
+                    </div>
 
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="password" class="form-control rounded-3" id="floatingPassword" placeholder="Password">
-                        <label for="floatingPassword">Password</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="password" class="form-control rounded-3" id="floatingConfirmPassword" placeholder="Confirm password">
-                        <label for="floatingConfirmPassword">Confirm Password</label>
-                    </div>
-                    <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="button">
-                        <a th:href="@{/users/signin}" style="text-decoration: none; color: white;">Sign up</a>
-                    </button>
+                <div>
+                    <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+                </div>
+
+            </form>
+
+
+
                     <br>
                     <small class="text-body-secondary">Already have an account? </small> <br>
 
-                    <div>
-                        <button type="button" class="w-100 btn btn-secondary btn-lg px-4 me-sm-3" >
-                            <a th:href="@{/users/signin}" style="text-decoration: none; color: white;">Sign in</a></button>
-                    </div>
-                </form>
+
+                <a th:href="@{/users/signin}" class="w-100 btn btn-secondary btn-lg px-4 me-sm-"  type="button" style="text-decoration: none; color: white;">
+                    Sign in
+                </a>
             </div>
+
         </div>
     </div>
 </div>
-
 
 <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
 </body>

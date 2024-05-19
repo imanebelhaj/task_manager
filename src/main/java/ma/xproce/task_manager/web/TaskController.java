@@ -1,6 +1,7 @@
 package ma.xproce.task_manager.web;
 
 import ma.xproce.task_manager.dao.entites.Task;
+import ma.xproce.task_manager.dao.entites.TaskList;
 import ma.xproce.task_manager.service.TaskManager;
 import ma.xproce.task_manager.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,21 +36,33 @@ public class TaskController {
                           @RequestParam(name = "name") String name,
                           @RequestParam(name = "id", defaultValue =  "") Integer id,
                           @RequestParam(name = "description") String description,
-                          @RequestParam(name = "Deadline") Date Deadline,
+                          @RequestParam(name = "deadline") Date deadline,
                           @RequestParam(name = "priorityLevel")String priorityLevel){
-        Task task = new Task(id, name, description, Deadline,priorityLevel);
-        taskService.addTask(task);
+        TaskList taskList = new TaskList();
+        Task task = new Task();
+        task.setName(name);
+        task.setDescription(description);
+        task.setDeadline(deadline);
+        task.setPriorityLevel(priorityLevel);
+
+        // Create a new TaskList
+        //TaskList taskList = new TaskList();
+
+        // Set TaskList for the Task
+        task.setTaskList(taskList);
+
+        // Save Task and TaskList
+        taskService.addTask(task, taskList.getId());
         return "redirect:dashboard";
     }
+
     @PostMapping("/AddOnce")
-    public String addTask(Model model,
-                                 @Valid Task task,
-                                 BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
-            return "addtask" ;
+    public String addTask(@ModelAttribute("task") @Valid Task task, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "addtask"; // Return the view to display validation errors
         }
-        taskService.addTask(task);
-        return "redirect:dashboard";
+        taskService.addTask(task, task.getTaskList().getId());
+        return "redirect:dashboard"; // Redirect to dashboard after successful addition
     }
     @GetMapping("/addtask")
     public String addtask(Model model) {

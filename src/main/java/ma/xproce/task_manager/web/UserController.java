@@ -1,12 +1,16 @@
 package ma.xproce.task_manager.web;
 
 
+import jakarta.servlet.http.HttpSession;
+import ma.xproce.task_manager.dao.repositories.UserRepository;
+import ma.xproce.task_manager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
+//import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ma.xproce.task_manager.dao.entites.User;
 
 
 
@@ -14,21 +18,52 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class UserController {
 
+    @Autowired
+    private UserRepository userRepository;
+
+//signup
 
     @GetMapping("/signup")
-    public String signup() {
-      return "signup";
-    }
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("user", new User());
 
-    @GetMapping("/process_registration")
-    public String process_registration() {
-        return "process_registration";
-
+        return "signup";
     }
-    @GetMapping("/signin")
-    public String signin() {
+    @PostMapping("/process_register")
+    public String processRegister(User user) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        userRepository.save(user);
         return "signin";
     }
+
+    //singin
+
+    @GetMapping("/signin")
+    public String  showSignInForm(Model model) {
+        return "signin";
+    }
+
+
+    @PostMapping("/process_login")
+    public String processLogin(@RequestParam String username, @RequestParam String password, HttpSession session, Model model) {
+        User user = userRepository.findByUsername(username);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            // Login successful
+            session.setAttribute("loggedInUser", user);
+            model.addAttribute("username", username);
+            return "redirect:/dashboard";
+        } else {
+            // Login failed
+            model.addAttribute("error", "Invalid username or password.");
+            return "redirect:/users/signin";
+        }
+    }
+
+
+    //Still No traitement
     @GetMapping("/profile")
     public String profile() {
         return "profile";
@@ -37,81 +72,6 @@ public class UserController {
     public String updateProfile() {
         return "updateprofile";
     }
-
-
-
-
-    /*
-
-    private final UserService userService;
-    private final UserRepository userRepository;
-
-    @Autowired
-    public UserController(UserService userService, UserRepository userRepository) {
-        this.userService = userService;
-        this.userRepository = userRepository;
-    }
-
-    @GetMapping("/signup")
-    public String showSignUpForm(Model model) {
-        model.addAttribute("user", new User());
-        return "index"; // Returns the signup form template
-    }
-
-    @PostMapping("/process_register")
-    public String processRegister(User user) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-        userRepository.save(user);
-        return "register_success";
-    }
-
-
-
-
-    @PostMapping("/signup")
-    public String signUp(@RequestParam String username,
-                         @RequestParam String fullName,
-                         @RequestParam String email,
-                         @RequestParam String phone,
-                         @RequestParam String password,
-                         @RequestParam String confirmPassword,
-                         @RequestParam String imageUrl,
-                         Model model) {
-        // Call UserService to sign up user
-        try {
-            userService.signUp(username, fullName, email, phone, password, confirmPassword, imageUrl);
-            return "redirect:/login"; // Redirect to login page after successful signup
-        } catch (IllegalArgumentException e) {
-            // Failed signup, add error message to model and return signup form again
-            model.addAttribute("error", e.getMessage());
-            return "signup";
-        }
-    }
-
-    @GetMapping("/signin")
-    public String showSignInForm(Model model) {
-        // Add attributes to the model if needed
-        return "signin"; // Returns the signin form template
-    }
-
-    @PostMapping("/signin")
-    public String signIn(@RequestParam String username,
-                         @RequestParam String password,
-                         Model model) {
-        // Call UserService to sign in user
-        try {
-            userService.signIn(username, password);
-            return "redirect:/dashboard"; // Redirect to dashboard after successful signin
-        } catch (RuntimeException e) {
-            // Failed signin, add error message to model and return signin form again
-            model.addAttribute("error", e.getMessage());
-            return "signin";
-        }
-    }
-
- */
 
 
 }
