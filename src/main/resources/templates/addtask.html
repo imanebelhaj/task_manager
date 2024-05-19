@@ -93,36 +93,8 @@
 </head>
 <body class="bg-body-tertiary">
 
-
-
 <div class="container">
-    <main>
-        <div class="py-5 text-center">
-            <h2 style="margin-top: 0px; margin-bottom: 0%;">New Task form</h2>
-        </div>
-        <div class="row g-5 d-flex justify-content-center">
-            <div class="col-md-7 col-lg-8">
-                <form action="/tasks/AddOnce" method="post" th:object="${task}" class="needs-validation" novalidate>
-                    <div class="row g-3">
-                        <div class="col-sm-12">
-                            <label for="name" class="form-label">Task name</label>
-                            <input type="text" class="form-control" th:field="*{name}" id="name" required>
-                            <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
-                        </div>
-                        <!-- Include other form fields similarly -->
 
-                        <button type="submit" class="btn btn-primary form-control w-50">Add</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </main>
-</div>
-
-<p>--------------------------------------------------------------------</p>
-<!--------------------------------------------------->
-<div class="container">
-    <form action="/tasks/AddOnce" method="post">
     <main>
         <div class="py-5 text-center">
             <!-- <img class="d-block mx-auto mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"> -->
@@ -131,55 +103,54 @@
         </div>
         <div class="row g-5 d-flex justify-content-center">
             <div class="col-md-7 col-lg-8" >
-                <form class="needs-validation" novalidate>
+                    <form th:action="@{/tasks/addtask}" method="post" th:object="${task}" class="needs-validation">
                     <div class="row g-3">
+
+
+
                         <div class="col-sm-12">
                             <label for="name" class="form-label">Task name</label>
-                            <input type="text" class="form-control"  name="name" id="name"  required>
-<!--                            <div class="invalid-feedback">-->
-<!--                                Valid first name is required.-->
-<!--                            </div>-->
+                            <input type="text" class="form-control"  name="name" id="name" required>
                             <span class="text-danger"  th:errors="${task.name}"></span>
                         </div>
 
                         <div class="col-sm-12">
                             <label for="description" class="form-label">Description</label>
-                            <input type="text" class="form-control" name="descrption" id="description" placeholder="" value="">
+                            <input type="text" class="form-control" name="description" id="description"  placeholder="" value="">
                             <span class="text-danger"  th:errors="${task.description}"></span>
                         </div>
 
                         <div class="col-12">
-                            <label for="deadline" class="form-label">Deadline <span class="text-body-secondary">(Optional)</span></label>
-                            <input type="date" class="form-control" name="deadline" id="deadline" >
+                            <label for="Deadline" class="form-label">Deadline <span class="text-body-secondary">(Optional)</span></label>
+                            <input type="date" class="form-control" name="Deadline" id="Deadline">
                         </div>
 
-                        <h4 class="mb-3">Priority</h4>
-
-                        <div class="my-3">
-                            <div class="form-check">
-                                <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked required>
-                                <label class="form-check-label" for="credit">Standard</label>
-                            </div>
-                            <div class="form-check">
-                                <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required>
-                                <label class="form-check-label" for="debit">High</label>
-                            </div>
-                            <div class="form-check">
-                                <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required>
-                                <label class="form-check-label" for="paypal">Low</label>
-                            </div>
+                        <div class="col-12">
+                            <label for="priorityLevel" class="form-label">Priority:</label>
+                            <select class="form-select" id="priorityLevel" name="priorityLevel">
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label for="taskListId" class="form-label">Task List:</label>
+                            <select class="form-select" id="taskListId" name="taskListId" required>
+                                <option value="" disabled selected>Select Task List</option>
+                                <th:block th:each="taskList : ${taskLists}">
+                                    <option th:value="${taskList.id}" th:text="${taskList.name}"></option>
+                                </th:block>
+                            </select>
                         </div>
 
-                        <a th:href="@{/dashboard}" class="w-100 btn btn-primary btn-lg"   type="submit" style="text-decoration: none; color: white;">
-                            Create task
-                        </a>
-                        <button type="submit" class="btn btn-primary form-control w-50" value="Add">Add</button>
+
+                        <button class="btn btn-primary form-control w-50" type="submit">Add Task</button>
                     </div>
                 </form>
             </div>
         </div>
     </main>
-    </form>
+
 
 </div>
 <script src="../assets/dist/js/bootstrap.bundle.min.js">

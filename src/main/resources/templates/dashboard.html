@@ -128,7 +128,7 @@
       display: block !important;
     }
     body, html {
-      overflow-y: hidden;
+
     }
     .bi {
       display: inline-block;
@@ -249,6 +249,7 @@
       align-items: center;
     }
 
+
   </style>
 
   <!-- Custom styles for this template -->
@@ -365,39 +366,16 @@
             </a>
           </h6>
 
-          <!--this will be i guess a loop for each list added to be displayed -->
           <ul class="nav flex-column mb-auto">
-            <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
-                <svg class="bi"><use xlink:href="#file-earmark-text"/></svg>List 1</a>
-
-            </li>
-            <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
+            <!-- Iterate over the task lists and render each list item -->
+            <li class="nav-item" th:each="taskList : ${taskLists}">
+              <a class="nav-link d-flex align-items-center gap-2" th:href="@{/dashboard/select/{taskListId}(taskListId=${taskList.id})}">
                 <svg class="bi"><use xlink:href="#file-earmark-text"/></svg>
-                List 2
+                <span th:text="${taskList.name}"></span>
               </a>
             </li>
           </ul>
 
-
-
-
-
-            <!-- <ul class="nav flex-column mb-auto">
-              <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" href="#">
-                  <svg class="bi"><use xlink:href="#gear-wide-connected"/></svg>
-                  Settings
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" href="#">
-                  <svg class="bi"><use xlink:href="#door-closed"/></svg>
-                  Sign out
-                </a>
-              </li>
-            </ul> -->
         </div>
       </div>
     </div>
@@ -417,82 +395,68 @@
       </div>
 
       <br>
-      <h4 class="h4">Task list name
-        <a class="link-secondary" th:href="@{/tasklists/updatelist}" >
-          <svg class="bi"><use xlink:href="#edit"/> </svg>
-        </a>
-      </h4>
+
 
 
       <div class="table-responsive small">
         <div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">
           <div class="list-group">
-            <label class="list-group-item d-flex gap-3">
-              <input class="form-check-input flex-shrink-0" type="checkbox" value="" checked style="font-size: 1.375em;">
-              <span class="pt-1 form-checked-content">
-                <strong>Finish sales report</strong>
+            <div th:if="${selectedTaskList}">
+              <div class="d-flex justify-content-between align-items-center">
+                <h2 th:text="${selectedTaskList.name}"></h2>
+                <a class="link-secondary" th:href="@{/tasklists/updatelist}">
+                  Edit List
+                  <svg class="bi"><use xlink:href="#edit"/></svg>
+                </a>
+              </div>
+              <br>
+<!--              <form th:action="@{/tasks/updatestatus}" method="post">-->
+<!--                <input type="hidden" name="taskListId" th:value="${selectedTaskList.id}" />-->
+                <ul class="list-unstyled">
+                <li th:each="task : ${tasks}">
+                  <label class="list-group-item d-flex gap-3">
+<!--th:checked="${task.isCompleted}" onchange="this.form.submit()" name="taskIds" value="${task.id}"-->
+                    <input   class="form-check-input flex-shrink-0" type="checkbox"  style="font-size: 1.375em;" >
+                    <span class="pt-1 form-checked-content">
 
-                <small class="d-block text-body-secondary">
-                  <svg class="bi me-1" width="1em" height="1em"><use xlink:href="#calendar-event"/></svg>
-                  1:00?2:00pm
+                <strong th:text="${task.name}"></strong>
+                      <!-- Display task details -->
+                <small th:text="${task.description}" class="d-block text-body-secondary">
+                </small>
+                      <svg class="bi me-1" width="1em" height="1em"><use xlink:href="#alarm"/></svg>
+                      <small th:text="${task.priorityLevel}" class="d-block text-body-secondary">
+                </small>
+                      <small>
+                      <svg class="bi me-1" width="1em" height="1em"><use xlink:href="#calendar-event"/></svg>
+                     </small>
+                      <small th:text="${task.deadline}" class="d-block text-body-secondary">
                 </small>
                 <strong>
-                  <a class="link-secondary  edit-task" th:href="@{/tasks/updatetask}" > edit task
-            <svg class="bi"><use xlink:href="#edit"/>  </svg></a></strong>
-              </span>
-            </label>
-            <label class="list-group-item d-flex gap-3">
-              <input class="form-check-input flex-shrink-0" type="checkbox" value="" style="font-size: 1.375em;">
-              <span class="pt-1 form-checked-content">
-                <strong>Weekly All Hands</strong>
-                <small class="d-block text-body-secondary">
-                  <svg class="bi me-1" width="1em" height="1em"><use xlink:href="#calendar-event"/></svg>
-                  2:00?2:30pm
-                </small>
-                <strong>
-                  <a class="link-secondary  edit-task" th:href="@{/tasks/updatetask}" > edit task
-            <svg class="bi"><use xlink:href="#edit"/>  </svg></a></strong>
-              </span>
 
-
-            </label>
-            <label class="list-group-item d-flex gap-3">
-              <input class="form-check-input flex-shrink-0" type="checkbox" value="" style="font-size: 1.375em;">
-              <span class="pt-1 form-checked-content">
-                <strong>Out of office</strong>
-                <small class="d-block text-body-secondary">
-                  <svg class="bi me-1" width="1em" height="1em"><use xlink:href="#alarm"/></svg>
-                  Tomorrow
-                </small>
-                <strong>
-                  <a class="link-secondary  edit-task" th:href="@{/tasks/updatetask}" > edit task
-            <svg class="bi"><use xlink:href="#edit"/>  </svg></a></strong>
+                  <a class="link-secondary  edit-task" th:href="@{/tasks/updatetask}" >
+                    Edit Task
+                    <svg class="bi"><use xlink:href="#edit"/>  </svg>
+                  </a>
+                </strong>
               </span>
-            </label>
-
-            </label>
-            <label class="list-group-item d-flex gap-3">
-              <input class="form-check-input flex-shrink-0" type="checkbox" value="" style="font-size: 1.375em;">
-              <span class="pt-1 form-checked-content">
-                <strong>Task test</strong>
-                <small class="d-block text-body-secondary">
-                  <svg class="bi me-1" width="1em" height="1em"><use xlink:href="#alarm"/></svg>
-                  Tomorrow
-                </small>
-                <strong>
-                  <a class="link-secondary  edit-task" th:href="@{/tasks/updatetask}" > edit task
-            <svg class="bi"><use xlink:href="#edit"/>  </svg></a></strong>
-              </span>
-            </label>
-
+                  </label>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-
       </div>
+
+
+
+
+
     </main>
   </div>
 </div>
-<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/dist/js/bootstrap.bundle.min.js">
+
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.2/dist/chart.umd.js" integrity="sha384-eI7PSr3L1XLISH8JdDII5YN/njoSsxfbrkCTnJrzXt+ENP5MOVBxD+l6sEG4zoLp" crossorigin="anonymous"></script><script src="dashboard.js"></script></body>
 </html>

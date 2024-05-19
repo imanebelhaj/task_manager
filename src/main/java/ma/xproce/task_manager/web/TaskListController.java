@@ -1,6 +1,7 @@
 package ma.xproce.task_manager.web;
 
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import ma.xproce.task_manager.dao.entites.Task;
 import ma.xproce.task_manager.dao.entites.TaskList;
@@ -23,10 +24,7 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/tasklists")
 public class TaskListController {
-//    @GetMapping("/addlist")
-//    public String addList() {
-//        return "addlist";
-//    }
+
     TaskListService taskListService;
     private final UserService userService;
     @Autowired
@@ -35,49 +33,34 @@ public class TaskListController {
         this.userService = userService;
     }
 
+    @GetMapping("/addlist")
+    public String showListForm(Model model) {
+        model.addAttribute("tasklist", new TaskList());
+        return "addlist";
+    }
+
+
+    @PostMapping("/addlist")
+    public String addListAction(@ModelAttribute("tasklist") @Valid TaskList taskList,BindingResult result, HttpSession session) {
+        if (result.hasErrors()) {
+            return "addlist";
+        }
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if (loggedInUser == null) {
+            return "redirect:/users/signin";
+        }
+        taskList.setUser(loggedInUser);
+        taskList.setCreationDate(new Date());
+        taskList.setLastUpdateDate(new Date());
+
+        taskListService.save(taskList);
+        return "redirect:/dashboard"; // Assuming dashboard is the correct redirect URL
+    }
+
     @GetMapping("/updatelist")
     public String updateList() {
         return "updatelist";
     }
-    @GetMapping("/addlisttask")
-    public String addlistask(Model model) {
-        TaskList taskList = new TaskList();
-        model.addAttribute("tasklist", taskList);
-        return "addlist";
-    }
-//    @GetMapping("/addlisttask")
-//    public String addlistask(Model model) {
-//        // Method implementation
-//    }
-    @PostMapping("/add")
-    public String addListAction(Model model,
-                                @RequestParam(name = "name") String name,
-                                @RequestParam(name = "id", defaultValue =  "") Integer id,
-                                @RequestParam(name = "description") String description,
-                                @RequestParam(name = "iconUrl") String iconUrl){
-        TaskList taskList = new TaskList();
-        taskList.setName(name);
-        taskList.setDescription(description);
-        taskList.setIconUrl(iconUrl);
-
-
-        return "redirect:dashboard";
-    }
-
-    @PostMapping("/AddOnce")
-    public String addList(@ModelAttribute("list") @Valid TaskList list, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "addlist"; // Return the view to display validation errors
-        }
-        taskListService.addList( list);
-        return "redirect:dashboard"; // Redirect to dashboard after successful addition
-    }
-    @GetMapping("/addlist")
-    public String addlist(Model model) {
-        model.addAttribute("list", new TaskList());
-        return "addlist";
-    }
-
 
 
 

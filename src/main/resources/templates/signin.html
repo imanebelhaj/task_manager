@@ -96,15 +96,21 @@
 
 
         <div class="col-md-10 mx-auto col-lg-5">
-                <form th:action="@{/users/process_login}" method="post" class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
+                <form th:action="@{/users/process_login}" method="post" class="p-4 p-md-5 border rounded-3 bg-body-tertiary needs-validation" >
 
                     <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="username"  name="username" placeholder="Username">
+                    <input type="text" class="form-control" id="username"  name="username" placeholder="Username" required>
                     <label for="username">Username</label>
+                        <div class="invalid-feedback">
+                            Please provide a Username.
+                        </div>
                 </div>
                 <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="password"  name="password" placeholder="Password">
+                    <input type="password" class="form-control" id="password"  name="password" placeholder="Password" required>
                     <label for="password">Password</label>
+                    <div class="invalid-feedback">
+                        Please provide Password.
+                    </div>
                 </div>
                 <div class="checkbox mb-3">
                     <label>
@@ -114,9 +120,7 @@
                     <div>
                         <button type="submit" class="btn btn-primary w-100">Sign In</button>
                     </div>
-<!--                <a th:href="@{/dashboard}" class="w-100 btn btn-primary btn-lg px-4 me-sm-"  type="button" style="text-decoration: none; color: white;">-->
-<!--                    Sign in-->
-<!--                </a>-->
+
                 <hr class="my-4">
                 <small class="text-body-secondary">Don't have an account? Create one now!</small> <br>
                 <div>
@@ -130,13 +134,23 @@
     </div>
 </div>
 
+<script src="../assets/dist/js/bootstrap.bundle.min.js">
+    (() => {
+        'use strict'
+        const forms = document.querySelectorAll('.needs-validation')
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
 
-
-
-
-
-</main>
-<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>
 
 
 </body>

@@ -21,8 +21,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-//signup
-
+//signup--------------------
     @GetMapping("/signup")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new User());
@@ -38,14 +37,11 @@ public class UserController {
         return "signin";
     }
 
-    //singin
-
+    //singin-----------------------------
     @GetMapping("/signin")
     public String  showSignInForm(Model model) {
         return "signin";
     }
-
-
     @PostMapping("/process_login")
     public String processLogin(@RequestParam String username, @RequestParam String password, HttpSession session, Model model) {
         User user = userRepository.findByUsername(username);
@@ -62,8 +58,7 @@ public class UserController {
         }
     }
 
-
-    //Still No traitement
+    //Still No traitement-----------------------------------
     @GetMapping("/profile")
     public String profile() {
         return "profile";

@@ -13,10 +13,6 @@ import java.util.List;
 
 @Service
 public class TaskService implements TaskManager {
-    //add task to list
-    // delete task from list
-    // edit task
-    // update task completion status
 
     private final TaskRepository taskRepository;
     private TaskListRepository taskListRepository;
@@ -24,6 +20,16 @@ public class TaskService implements TaskManager {
     @Autowired
     public TaskService(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
+    }
+
+
+    public Task save(Task task) {
+        return taskRepository.save(task);
+    }
+
+
+    public List<Task> getTasksByTaskListId(Long taskListId) {
+        return taskRepository.findByTaskListId(taskListId);
     }
 
 
@@ -83,6 +89,8 @@ public class TaskService implements TaskManager {
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
     }
+
+
 
 //    public List<Task> findAllCompletedTask() {
 //        return taskRepository.findByCompletedTrue();
