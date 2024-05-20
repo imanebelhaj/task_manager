@@ -435,7 +435,7 @@
                 </small>
                 <strong>
 
-                  <a class="link-secondary  edit-task" th:href="@{/tasks/updatetask}" >
+                  <a class="link-secondary  edit-task" th:href="@{/tasks/updatetask/{taskId}(taskId=${task.id})}" >
                     Edit Task
                     <svg class="bi"><use xlink:href="#edit"/>  </svg>
                   </a>
