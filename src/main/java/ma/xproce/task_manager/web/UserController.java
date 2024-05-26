@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ma.xproce.task_manager.dao.entites.User;
 
+import java.util.Date;
 
 
 @RequestMapping("/users")
@@ -33,6 +34,7 @@ public class UserController {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
+        user.setCreationDate(new Date());
         userRepository.save(user);
         return "signin";
     }

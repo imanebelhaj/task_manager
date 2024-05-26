@@ -52,26 +52,6 @@ public class DashboardController {
         session.setAttribute("selectedTaskListId", taskListId);
         return "redirect:/dashboard";
     }
-//    @PostMapping("/tasks/updatestatus")
-//    public String updateTaskStatus(@RequestParam("taskListId") Long taskListId, @RequestParam(value = "taskIds", required = false) List<Long> taskIds, HttpSession session) {
-//        // Check if taskIds parameter is present
-//        if (taskIds != null && !taskIds.isEmpty()) {
-//            // Retrieve the selected task list
-//            TaskList selectedTaskList = taskListService.getTaskListById(taskListId);
-//
-//            // Update task statuses
-//            for (Long taskId : taskIds) {
-//                Task task = taskService.findTaskById(taskId);
-//                // Toggle task completion status
-//                task.setCompleted(!task.isCompleted());
-//                taskService.save(task);
-//            }
-//        }
-//
-//        // Redirect back to the dashboard with the updated task list
-//        session.setAttribute("selectedTaskListId", taskListId);
-//        return "redirect:/dashboard";
-//    }
 
 
 

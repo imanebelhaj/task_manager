@@ -58,6 +58,12 @@
             z-index: 2;
             height: 2.75rem;
             overflow-y: hidden;
+
+
+        }
+        html{
+            /*overflow-y: hidden;*/
+
         }
 
         .nav-scroller .nav {
@@ -69,6 +75,7 @@
             text-align: center;
             white-space: nowrap;
             -webkit-overflow-scrolling: touch;
+
         }
 
 
@@ -79,6 +86,16 @@
         .bd-mode-toggle .dropdown-menu .active .bi {
             display: block !important;
         }
+        .custom-img {
+            border-radius: 18px; /* Adjust the value for more or less curve */
+            box-shadow: 8px 8px 8px rgba(0.1 , 0.1, 0.1, 0.1); /* Adjust for different shadow effects */
+        }
+        /*body {*/
+        /*    background-image: url('/img/back5.jpeg');*/
+        /*    background-size: cover;*/
+        /*    background-repeat: no-repeat;*/
+        /*    background-attachment: fixed;*/
+        /*}*/
     </style>
 </head>
 
@@ -86,26 +103,31 @@
 <body>
 <main>
 
-    <div class="px-4 pt-5 my-5 text-center border-bottom">
-        <h1 class="display-4 fw-bold text-body-emphasis">Welcome to Our To-Do List App!
 
-        </h1>
-        <div class="col-lg-6 mx-auto">
-            <p class="lead mb-4">Stay organized and boost your productivity with our intuitive task management tool. Easily create, organize, and prioritize your tasks, set deadlines, and track your progress. With user-friendly features and seamless navigation, managing your daily tasks has never been easier. Sign up now to start organizing your life and accomplishing your goals!</p>
-            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
 
-                <button type="button" class=" btn btn-primary btn-lg " style="width: 200px"><a th:href="@{/users/signin}" style="text-decoration: none; color: white; font-size: 25px" >signin</a></button>
-
+    <div class="container col-xxl-8 px-4 py-5">
+        <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+            <div class="col-10 col-sm-8 col-lg-6">
+                <img src="/img/todo.gif" class="d-block mx-lg-auto img-fluid rounded shadow" alt="Bootstrap Themes" width="700" height="700" loading="lazy">
             </div>
-        </div>
+            <div class="col-lg-6">
+                <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">&#x2B50 Tasky &#x2B50</h1>
+<!--                <p class="lead">Quickly design and customize responsive mobile-first sites with Bootstrap, the world?s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>-->
+                <p  class="lead">Stay organized and boost your productivity with our intuitive task management tool. Easily create, organize, and prioritize your tasks, set deadlines, and track your progress.Sign up now to start organizing your life and accomplishing your goals!</p>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-start">
 
-
-        <div class="overflow-hidden" style="max-height: 30vh;">
-            <div class="container px-5">
-                <img src="/img/todo.gif" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" width="500" height="200" loading="lazy">
+                    <a th:href="@{/users/signup}" class="btn btn-primary btn-lg px-4 me-md-2"  type="button" style="text-decoration: none; color: white;">
+                        Register
+                    </a>
+                    <a th:href="@{/users/signin}" class="btn btn-secondary btn-lg px-4"  type="button" style="text-decoration: none; color: white;">
+                        Sign-In
+                    </a>
+                </div>
             </div>
         </div>
     </div>
+
+
 
 
 

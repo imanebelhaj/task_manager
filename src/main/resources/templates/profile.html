@@ -6,5 +6,28 @@
 </head>
 <body>
 
+<header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow" data-bs-theme="dark">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" th:href="@{/dashboard}" style="text-decoration: none; color: white;">&#x2B50 Tasky &#x2B50</a></button>
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+
+        <div class="dropdown " style="margin-left: 20px;">
+            <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Account ... </a>
+            <ul class="dropdown-menu text-small">
+                <li><a class="dropdown-item" th:href="@{/dashboard}">Settings</a></li>
+                <li><a class="dropdown-item" th:href="@{/dashboard}">Profile</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" th:href="@{/}">Sign out</a></li>
+            </ul>
+        </div>
+        <button style="background-color: transparent;color: transparent;border: none;cursor: pointer; margin-right: 60px;"></button>
+
+
+
+
+    </div>
+</header>
+
+
 </body>
 </html>
